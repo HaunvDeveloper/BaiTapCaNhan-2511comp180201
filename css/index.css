@@ -1,0 +1,142 @@
+/* CSS Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Thân trang */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f8fafc; /* Màu nền dự phòng */
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh; /* Đảm bảo chiều cao đầy màn hình */
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  padding: 24px; /* Đệm 2 bên */
+}
+
+/* Khối bao bọc chính */
+.container {
+  width: 100%;
+  max-width: 900px; /* Giới hạn chiều rộng (thay cho max-w-5xl) */
+  margin: 0 auto;
+}
+
+/* Tiêu đề */
+header {
+  text-align: center;
+  margin-bottom: 64px; /* (thay cho mb-16) */
+}
+
+header h1 {
+  font-size: 2.25rem; /* 36px (thay cho text-4xl) */
+  font-weight: 700;
+  color: #1f2937; /* (thay cho text-gray-800) */
+}
+
+header .subtitle {
+  font-size: 1.125rem; /* 18px (thay cho text-lg) */
+  color: #4b5563; /* (thay cho text-gray-600) */
+  margin-top: 12px;
+}
+
+header .student-info {
+  font-size: 0.875rem; /* 14px (thay cho text-md) */
+  color: #6b7280; /* (thay cho text-gray-500) */
+  margin-top: 8px;
+}
+
+/* Lưới chứa các thẻ */
+main {
+  display: flex;
+  justify-content: center; /* Căn giữa các thẻ */
+  flex-wrap: wrap; /* Cho phép xuống hàng trên mobile */
+  gap: 40px; /* Khoảng cách giữa các thẻ (thay cho gap-10) */
+}
+
+/* Kiểu dáng thẻ */
+.card {
+  display: block;
+  background-color: #ffffff;
+  padding: 32px; /* (thay cho p-8) */
+  border-radius: 16px; /* (thay cho rounded-2xl) */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* (thay cho shadow-lg) */
+  text-decoration: none;
+  width: 100%; /* Chiếm 100% chiều rộng trên mobile */
+  max-width: 350px; /* Giới hạn chiều rộng thẻ */
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-8px); /* (thay cho hover:-translate-y-2) */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04); /* (thay cho hover:shadow-2xl) */
+}
+
+/* Vòng tròn chứa Icon */
+.icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.icon-wrapper svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Màu sắc riêng cho thẻ 1 */
+.card.card-hoca .icon-wrapper {
+  background-color: #dbeafe; /* (thay cho bg-blue-100) */
+  color: #2563eb; /* (thay cho text-blue-600) */
+}
+.card.card-hoca:hover .icon-wrapper {
+  background-color: #bfdbfe; /* (thay cho hover:bg-blue-200) */
+  transform: scale(1.1);
+}
+.card.card-hoca .link-text {
+  color: #2563eb; /* (thay cho text-blue-600) */
+}
+
+/* Màu sắc riêng cho thẻ 2 */
+.card.card-cv .icon-wrapper {
+  background-color: #dcfce7; /* (thay cho bg-green-100) */
+  color: #16a34a; /* (thay cho text-green-600) */
+}
+.card.card-cv:hover .icon-wrapper {
+  background-color: #bbf7d0; /* (thay cho hover:bg-green-200) */
+  transform: scale(1.1);
+}
+.card.card-cv .link-text {
+  color: #16a34a; /* (thay cho text-green-600) */
+}
+
+/* Nội dung thẻ */
+.card h2 {
+  font-size: 1.5rem; /* 24px (thay cho text-2xl) */
+  font-weight: 600;
+  color: #111827; /* (thay cho text-gray-900) */
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #6b7280; /* (thay cho text-gray-500) */
+  margin-bottom: 20px;
+}
+
+.card .link-text {
+  font-weight: 500;
+}
+
+.card:hover .link-text {
+  text-decoration: underline;
+}

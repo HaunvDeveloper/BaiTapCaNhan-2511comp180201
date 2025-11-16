@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ Cá</title>
+    <link rel="stylesheet" href="css/HoCa.css" />
+  </head>
+  <body>
+    <a href="index.html" style="position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+    z-index: 1000;
+    padding: 8px 12px ;
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);"
+    ">&larr; Quay lại</a>
+    <div class="controls">
+      <label>Thả cá vào hồ:</label>
+      <button onclick="addFish('yellow')">Cá Vàng</button>
+      <button onclick="addFish('blue')">Cá Xanh</button>
+      <button onclick="addFish('red')">Cá Đỏ</button>
+      <button onclick="addFish('sua')">Sứa</button>
+    </div>
+    <h4 style="color: #ffffff; font-size: 14px; margin: 0 0 10px 0;">
+      Nhấp vào cá để bắt cá!
+
+    </h4>
+    <div class="aquarium" id="aquarium">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="crap"></div>
+    </div>
+
+    <script>
+      const fishData = {
+        yellow: ["images/cavang.png", "images/cavang2.png", "images/cavang3.png", "images/cavang4.png"], // '/images/cavang.png',
+        blue: ["images/caxanh.png", "images/caxanh2.png"], // '/images/caxanh.png',
+        red : ["images/cado.png", "images/cado2.png"], // '/images/cado.png',
+        sua: ["images/sua.png"], // '/images/rua.png',
+      };
+
+      const aquarium = document.getElementById("aquarium");
+      var AQUARIUM_WIDTH = 1000;
+      var AQUARIUM_HEIGHT = 500;
+
+      function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function playSound(src) {
+        const audio = new Audio(src);
+        audio.play();
+      }
+
+      function addFish(type) {
+
+        playSound('/audio/water-splash.mp3');
+
+        const fish = document.createElement("div");
+        fish.classList.add("fish");
+
+        const img = document.createElement("img");
+        const randomIndex = Math.floor(Math.random() * fishData[type].length);
+        img.src = fishData[type][randomIndex];
+        img.alt = `Cá ${type}`;
+        // Xử lý lỗi nếu không tải được ảnh
+        img.onerror = function () {
+          this.src = `https://placehold.co/100x70/ccc/000?text=Lỗi+Ảnh`;
+        };
+        img.style.width = `${getRandomNumber(80, 120)}px`;
+        fish.appendChild(img);
+        aquarium.appendChild(fish);
+
+        const startX = getRandomNumber(50, AQUARIUM_WIDTH - 150);
+        const startY = -50; 
+        const targetY = getRandomNumber(50, AQUARIUM_HEIGHT - 120);
+
+        fish.dataset.x = startX;
+        fish.dataset.y = targetY;
+        fish.dataset.isAlive = "true"; 
+
+        fish.style.transform = `translate(${startX}px, ${startY}px) scaleX(1)`;
+        fish.style.opacity = 0;
+
+        fish.addEventListener(
+          "click",
+          () => {
+            playSound('/audio/die.mp3');
+            fish.dataset.isAlive = "false";
+
+            // --- Dừng chuyển động hiện tại ---
+            const computedStyle = window.getComputedStyle(fish);
+            const matrix = new DOMMatrix(computedStyle.transform);
+            const currentX = matrix.m41;
+            const currentY = matrix.m42;
+
+            fish.style.transition = "none";
+            img.style.transition = "none";
+            img.style.filter = "hue-rotate(180deg) saturate(0.5)";
+
+            fish.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            img.style.transform = "scaleY(1) rotate(0deg)";
+            void fish.offsetHeight;
+
+            fish.style.transition =
+              "transform 2s ease-out, opacity 2.5s ease-out";
+            img.style.transition = "transform 1.5s ease-in";
+
+            fish.style.transform = `translate(${currentX}px, -50px)`; // Nổi lên trên
+            fish.style.opacity = 0;
+            img.style.transform = "scaleY(-1) rotate(0deg)"; // Lật ngược
+
+            fish.addEventListener("transitionend", (e) => {
+              if (e.propertyName === "opacity") {
+                if (fish.parentNode) {
+                  fish.parentNode.removeChild(fish);
+                }
+              }
+            });
+          },
+          { once: true }
+        ); // { once: true } đảm bảo chỉ nhấp được 1 lần
+
+        setTimeout(() => {
+          fish.style.transition = `transform 1s cubic-bezier(0.45, 0, 0.55, 1), opacity 0.8s`;
+          fish.style.transform = `translate(${startX}px, ${targetY}px) scaleX(1)`;
+          fish.style.opacity = 1;
+        }, 50);
+
+        fish.addEventListener("transitionend", function handleDrop(e) {
+          if (e.propertyName === "transform") {
+            fish.removeEventListener("transitionend", handleDrop);
+            moveFishRandomly(fish);
+          }
+        });
+
+      }
+
+      function moveFishRandomly(fish) {
+        if (fish.dataset.isAlive !== "true") {
+          return; // Dừng vòng lặp nếu cá đã chết
+        }
+
+        const MIN_DISTANCE = 120;
+        const MAX_VERTICAL_RATIO = 2.14;
+
+        const currentX = parseFloat(fish.dataset.x);
+        const currentY = parseFloat(fish.dataset.y);
+
+        let newX, newY, distance, dx, dy, ratio;
+        do {
+          newX = getRandomNumber(20, AQUARIUM_WIDTH - 120);
+          newY = getRandomNumber(50, AQUARIUM_HEIGHT - 120);
+          dx = newX - currentX;
+          dy = newY - currentY;
+          distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (Math.abs(dx) < 10) {
+            ratio = 999;
+          } else {
+            ratio = Math.abs(dy / dx);
+          }
+        } while (distance < MIN_DISTANCE || ratio > MAX_VERTICAL_RATIO);
+
+        const travelTime = getRandomNumber(3, 8);
+
+        const img = fish.querySelector("img");
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        if (dx >= 0) {
+          img.style.transform = `rotate(${angle}deg) scaleX(1)`;
+        } else {
+          const rotation = angle - 180;
+          img.style.transform = `rotate(${rotation}deg) scaleX(-1)`;
+        }
+        fish.dataset.x = newX;
+        fish.dataset.y = newY;
+
+        fish.style.transition = `transform ${travelTime}s linear, filter 0.3s`;
+        fish.style.transform = `translate(${newX}px, ${newY}px)`;
+
+        setTimeout(() => moveFishRandomly(fish), travelTime * 1000);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => addFish("yellow"), 500);
+        setTimeout(() => addFish("blue"), 1000);
+        setTimeout(() => addFish("sua"), 1500);
+        setTimeout(() => addFish("red"), 2000);
+
+        const aquariumRect = aquarium.getBoundingClientRect();
+        AQUARIUM_WIDTH = aquariumRect.width;
+        AQUARIUM_HEIGHT = aquariumRect.height;
+      });
+
+      window.addEventListener("resize", () => {
+        const aquariumRect = aquarium.getBoundingClientRect();
+        AQUARIUM_WIDTH = aquariumRect.width;
+        AQUARIUM_HEIGHT = aquariumRect.height;
+      });
+    </script>
+  </body>
+</html>

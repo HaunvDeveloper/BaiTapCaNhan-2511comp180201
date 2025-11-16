@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV - Nguyễn Văn Hậu</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="css/CV.css" />
+
+
+  </head>
+  <body>
+    <a id="btn-back" href="index.html" style="">&larr; Quay lại</a>
+    <div class="container">
+      <header class="header">
+        <div class="header-main">
+          <img
+            src="images/AnhThe.png"
+            alt="Avatar của Hậu"
+            class="avatar"
+          />
+
+          <div class="header-content">
+            <h1>Nguyễn Văn Hậu</h1>
+            <h2>Giáo viên Tin học - Lập trình viên Full-stack</h2>
+          </div>
+        </div>
+        <nav class="controls">
+          <button
+            class="control-btn"
+            id="theme-toggle"
+            aria-label="Chuyển chế độ sáng/tối"
+          >
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+            <span class="btn-text">Chế độ</span>
+          </button>
+        </nav>
+      </header>
+
+      <main class="main-grid">
+        <aside class="sidebar">
+          <section id="contact" class="card">
+            <h3><i class="fas fa-address-book"></i>Liên hệ</h3>
+            <ul>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a id="email-link" href="mailto:haunv.cntt@gmail.com"
+                  >haunv.cntt@gmail.com</a
+                >
+                <button
+                  class="copy-btn"
+                  data-copy="haunv.cntt@gmail.com"
+                  aria-label="Sao chép Email"
+                >
+                  <i class="fas fa-copy"></i>
+                  <i class="fas fa-check"></i>
+                </button>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span id="phone-text">+84 944 746 748</span>
+                <button
+                  class="copy-btn"
+                  data-copy="+84 944 746 748"
+                  aria-label="Sao chép SĐT"
+                >
+                  <i class="fas fa-copy"></i>
+                  <i class="fas fa-check"></i>
+                </button>
+              </li>
+              <li>
+                <i class="fab fa-github"></i>
+                <a
+                  id="github-link"
+                  href="https://github.com/HaunvDeveloper/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >github.com/HaunvDeveloper</a
+                >
+                <button
+                  class="copy-btn"
+                  data-copy="https://github.com/HaunvDeveloper/"
+                  aria-label="Sao chép link GitHub"
+                >
+                  <i class="fas fa-copy"></i>
+                  <i class="fas fa-check"></i>
+                </button>
+              </li>
+            </ul>
+          </section>
+
+          <section id="skills" class="card">
+            <h3><i class="fas fa-star"></i>Kỹ năng</h3>
+            <div class="skill-filters">
+              <button
+                class="skill-filter-btn"
+                data-filter="all"
+                aria-pressed="true"
+              >
+                Tất cả
+              </button>
+              <button
+                class="skill-filter-btn"
+                data-filter="frontend"
+                aria-pressed="false"
+              >
+                Frontend
+              </button>
+              <button
+                class="skill-filter-btn"
+                data-filter="backend"
+                aria-pressed="false"
+              >
+                Backend
+              </button>
+              <button
+                class="skill-filter-btn"
+                data-filter="devops"
+                aria-pressed="false"
+              >
+                DevOps/Tools
+              </button>
+              <button
+                class="skill-filter-btn"
+                data-filter="other"
+                aria-pressed="false"
+              >
+                Khác
+              </button>
+            </div>
+            <ul class="skill-list">
+              <li data-category="frontend">
+                <span>HTML & CSS</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 90%"></span>
+                </div>
+              </li>
+              <li data-category="frontend">
+                <span>JavaScript (ES6+)</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 85%"></span>
+                </div>
+              </li>
+              <li data-category="backend">
+                <span>ASP.NET</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 90%"></span>
+                </div>
+              </li>
+              <li data-category="backend">
+                <span>MySQL & SQL Server</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 80%"></span>
+                </div>
+              </li>
+              <li data-category="backend">
+                <span>C++</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 80%"></span>
+                </div>
+              </li>
+              <li data-category="devops">
+                <span>Docker</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 70%"></span>
+                </div>
+              </li>
+              <li data-category="devops">
+                <span> VPS </span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 65%"></span>
+                </div>
+              </li>
+              <li data-category="devops">
+                <span>Git & CI/CD</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 85%"></span>
+                </div>
+              </li>
+              <li data-category="other">
+                <span>Python</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 75%"></span>
+                </div>
+              </li>
+              <li data-category="other">
+                <span>Scratch</span>
+                <div class="progress-bar">
+                  <span class="progress" style="--skill-level: 70%"></span>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </aside>
+
+        <main class="main-content">
+          <section id="about" class="card">
+            <h3><i class="fas fa-user"></i>Giới thiệu</h3>
+            <p>
+              Tôi là sinh viên năm 4 ngành Sư phạm Tin học với thế mạnh ở cả hai
+              lĩnh vực: giảng dạy và lập trình. Tôi thành thạo các kiến thức về
+              thuật toán, lập trình web và có khả năng truyền đạt, hệ thống hóa
+              kiến thức một cách rõ ràng, dễ hiểu. Tôi mong muốn ứng dụng kỹ
+              năng chuyên môn và kỹ năng sư phạm để đóng góp hiệu quả trong môi
+              trường giáo dục hoặc phát triển phần mềm.
+            </p>
+          </section>
+
+          <section id="education" class="card">
+            <h3><i class="fas fa-graduation-cap"></i>Học vấn</h3>
+            <h4>Đại học Sư phạm TP.Hồ Chí Minh</h4>
+            <p>Sinh viên năm thứ 4.</p>
+
+            <div class="gpa-display">
+              <div class="gpa-circle" data-gpa-percent="93.25%">
+                <span class="gpa-score">3.73</span>
+              </div>
+              <span class="gpa-text">Overall GPA 3.73 / 4.0</span>
+            </div>
+
+            <span>Tháng 9, 2021 - Hiện tại</span>
+          </section>
+
+          <section id="experience">
+            <h3><i class="fas fa-briefcase"></i>Kinh nghiệm</h3>
+
+            <div class="card job-item">
+              <div class="job-header">
+                <h4>Fullstack Developer</h4>
+                <span>2022 — Hiện tại</span>
+              </div>
+              <ul>
+                <li>
+                  Phát triển và bảo trì ứng dụng web full-stack sử dụng ASP.NET
+                  và ASP.NET Core.
+                </li>
+                <li>
+                  Thiết kế database SQL Server, tối ưu truy vấn và thực thi
+                  stored procedures.
+                </li>
+                <li>
+                  Xây dựng RESTful API và tích hợp dịch vụ backend với các
+                  frontend framework.
+                </li>
+              </ul>
+              <div class="tech-tags">
+                <span>ASP.NET</span>
+                <span>ASP.NET Core</span>
+                <span>SQL Server</span>
+                <span>RESTful API</span>
+              </div>
+            </div>
+
+            <div class="card job-item">
+              <div class="job-header">
+                <h4>Programming Instructor (Giảng viên Lập trình)</h4>
+                <span>2022 — Hiện tại</span>
+              </div>
+              <ul>
+                <li>
+                  Giảng dạy lập trình C++ nâng cao, phân tích thuật toán và kỹ
+                  thuật giải quyết vấn đề.
+                </li>
+                <li>
+                  Phụ trách các khóa học phát triển web (Frontend và Backend).
+                </li>
+                <li>
+                  Hướng dẫn học sinh (6-18 tuổi) làm quen với Scratch, Python.
+                </li>
+              </ul>
+              <div class="tech-tags">
+                <span>C++</span>
+                <span>Python</span>
+                <span>Scratch</span>
+                <span>Web Development</span>
+                <span>Teaching</span>
+              </div>
+            </div>
+
+            <div class="card job-item">
+              <div class="job-header">
+                <h4>Dự án Nghiên cứu Khoa học Máy tính</h4>
+                <span>2022 — 2024</span>
+              </div>
+              <ul>
+                <li>
+                  Thiết kế Chatbot dựa trên Tri thức để truy vấn các khái niệm
+                  cơ bản về Database (Bài báo quốc tế).
+                </li>
+                <li>
+                  Nâng cao hiệu quả truy vấn kiến thức pháp lý bằng Đồ thị Tri
+                  thức và Suy luận (Bài báo quốc tế).
+                </li>
+              </ul>
+              <div class="tech-tags">
+                <span>Chatbot</span>
+                <span>Knowledge Graph</span>
+                <span>Ontology</span>
+                <span>RAG</span>
+                <span>LLM</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="publications">
+            <h3><i class="fas fa-book-open"></i>Bài báo khoa học</h3>
+            <div class="card project-item">
+              <h4>
+                TÍCH HỢP BIỂU DIỄN TRI THỨC ONTOLOGY VÀ ĐỒ THỊ TRI THỨC CHO HỆ
+                THỐNG CHATBOT HỖ TRỢ TRUY VẤN KIẾN THỨC TRONG GIÁO DỤC (2024)
+              </h4>
+              <p>
+                Tác giả: Nguyễn Viết Hưng, Lê Thị Ngọc Thảo, Nguyễn Văn Hậu, Nguyễn Đắc Long, Trần Phong Nhã, Nguyễn Đình Hiển
+                <br />
+                Đăng tại: Tạp chí Khoa học Trường Đại học Sư phạm Thành phố Hồ
+                Chí Minh.
+                <br />
+                <a
+                  href="https://journal.hcmue.edu.vn/index.php/hcmuejos/article/view/4129"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >DOI: 10.54607/hcmue.js.21.5.4129</a
+                >
+              </p>
+              <p>
+                Mô tả: Đề xuất mô hình tích hợp ontology và đồ thị tri thức để
+                tối ưu biểu diễn kiến thức, ứng dụng xây dựng chatbot hỗ trợ
+                truy vấn môn Cơ sở dữ liệu và so sánh với các mô hình ngôn ngữ
+                lớn.
+              </p>
+              <div class="tech-tags">
+                <span>Ontology</span>
+                <span>Knowledge Graph</span>
+                <span>Chatbot</span>
+                <span>Education</span>
+              </div>
+            </div>
+            <div class="card project-item">
+              <h4>
+                Design a Knowledge Chatbot System in Education Based on Ontology
+                Approach (2024)
+              </h4>
+              <p>
+                Tác giả: Hung Nguyen, Thao TN Le, Hau Nguyen, Long D Nguyen, Dung Dinh, Vuong T Pham, Hien D Nguyen
+                <br />
+                Đăng tại: New Trends in Intelligent Software Methodologies, Tools
+                and Techniques.
+                <br />
+                <a
+                  href="https://doi.org/10.3233/FAIA240352"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >DOI: 10.3233/FAIA240352</a
+                >
+              </p>
+              <p>
+                Mô tả: Nghiên cứu đề xuất phương pháp dựa trên ontology để thiết
+                kế hệ thống chatbot tri thức hỗ trợ học tập trực tuyến môn Cơ sở
+                dữ liệu.
+              </p>
+              <div class="tech-tags">
+                <span>Ontology</span>
+                <span>Chatbot</span>
+                <span>Knowledge Graph</span>
+              </div>
+            </div>
+
+            <div class="card project-item">
+              <h4>
+                Knowledge Graph-Based Legal Query System with LLM and Retrieval
+                Augmented Generation (2025)
+              </h4>
+              <p>
+                Tác giả: Dung V Dang, Hau Nguyen, Thao TN Le, Hung Do, Hung Nguyen, Hung Q Ngo, Hien D Nguyen
+                <br />
+                Đăng tại: Asian Conference on Intelligent Information and
+                Database Systems.
+                <br />
+                <a
+                  href="https://link.springer.com/chapter/10.1007/978-981-96-5881-7_13"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >DOI: 10.1007/978-981-96-5881-7-13</a
+                >
+              </p>
+              <p>
+                Mô tả: Giới thiệu hệ thống truy vấn pháp lý thông minh tích hợp
+                đồ thị tri thức, RAG và LLM để phân tích ngữ cảnh và truy xuất
+                thông tin pháp lý chính xác.
+              </p>
+              <div class="tech-tags">
+                <span>Knowledge Graph</span>
+                <span>LLM</span>
+                <span>RAG</span>
+                <span>Legal Tech</span>
+              </div>
+            </div>
+
+            
+            
+          </section>
+          
+          <section id="projects">
+            <h3><i class="fas fa-project-diagram"></i>Dự án</h3>
+
+            <div class="card project-item">
+              <h4>
+                <a
+                  href="http://hmcoding.xyz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >HMCoding - Web chấm điểm lập trình</a
+                >
+              </h4>
+              <p>
+                Trang web lập trình học thuật chấm điểm Online.
+                <br />
+                <a
+                  href="https://github.com/HaunvDeveloper/HMCodingWeb"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Link GitHub</a
+                >
+              </p>
+              <div class="tech-tags">
+                <span>ASP.NET Core MVC</span>
+                <span>Razor Page</span>
+                <span>SQL Server</span>
+              </div>
+            </div>
+
+            <div class="card project-item">
+              <h4>Trang web điểm danh sinh viên bằng Face ID</h4>
+              <p>
+                Sử dụng DeepFace để nhận diện và điểm danh.
+                <br />
+                <a
+                  href="https://github.com/HaunvDeveloper/StudentManagementASP"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Link GitHub</a
+                >
+              </p>
+              <div class="tech-tags">
+                <span>ASP.NET Core MVC</span>
+                <span>Razor Page</span>
+                <span>SQL Server</span>
+                <span>DeepFace</span>
+              </div>
+            </div>
+
+            <div class="card project-item">
+              <h4>Trang web quản lý chi tiêu cá nhân (HMSaving)</h4>
+              <p>
+                Giúp người dùng theo dõi và quản lý chi tiêu.
+                <br />
+                <a
+                  href="https://github.com/HaunvDeveloper/HMSaving"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Link GitHub</a
+                >
+              </p>
+              <div class="tech-tags">
+                <span>ASP.NET Core MVC</span>
+                <span>Razor Page</span>
+                <span>SQL Server</span>
+              </div>
+            </div>
+          </section>
+        </main>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2025 Hậu Nguyễn.</p>
+      </footer>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        const htmlElement = document.documentElement;
+
+        const applyTheme = (theme) => {
+          if (theme === "dark") {
+            htmlElement.classList.add("dark");
+          } else {
+            htmlElement.classList.remove("dark");
+          }
+          localStorage.setItem("theme", theme);
+        };
+
+        const savedTheme = localStorage.getItem("theme");
+        const systemPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const currentTheme = savedTheme
+          ? savedTheme
+          : systemPrefersDark
+          ? "dark"
+          : "light";
+
+        applyTheme(currentTheme);
+        themeToggleBtn.addEventListener("click", () => {
+          const newTheme = htmlElement.classList.contains("dark")
+            ? "light"
+            : "dark";
+          applyTheme(newTheme);
+        });
+
+        const copyButtons = document.querySelectorAll(".copy-btn");
+        copyButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const textToCopy = btn.dataset.copy;
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // Dành cho mobile
+
+            try {
+              document.execCommand("copy");
+
+              const copyIcon = btn.querySelector(".fa-copy");
+              const checkIcon = btn.querySelector(".fa-check");
+              copyIcon.style.display = "none";
+              checkIcon.style.display = "inline-block";
+
+              setTimeout(() => {
+                copyIcon.style.display = "inline-block";
+                checkIcon.style.display = "none";
+              }, 2000);
+            } catch (err) {
+              console.error("Không thể sao chép:", err);
+            }
+
+            document.body.removeChild(tempInput);
+          });
+        });
+
+        const filterButtons = document.querySelectorAll(".skill-filter-btn");
+        const skillItems = document.querySelectorAll(".skill-list li");
+
+        filterButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const filterCategory = btn.dataset.filter;
+
+            filterButtons.forEach((b) =>
+              b.setAttribute("aria-pressed", "false")
+            );
+            btn.setAttribute("aria-pressed", "true");
+
+            skillItems.forEach((item) => {
+              const itemCategory = item.dataset.category;
+              if (filterCategory === "all" || itemCategory === filterCategory) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        });
+
+        const progressBars = document.querySelectorAll(".progress");
+
+        const skillObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = "running";
+
+                skillObserver.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.8, 
+          }
+        );
+
+        progressBars.forEach((bar) => {
+          skillObserver.observe(bar);
+        });
+
+        const gpaCircle = document.querySelector(".gpa-circle");
+        if (gpaCircle) {
+          const gpaObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const targetPercent = entry.target.dataset.gpaPercent;
+                  if (targetPercent) {
+                    entry.target.style.setProperty(
+                      "--gpa-percent",
+                      targetPercent
+                    );
+                  }
+                  gpaObserver.unobserve(entry.target);
+                }
+              });
+            },
+            {
+              threshold: 0.8, 
+            }
+          );
+
+          gpaObserver.observe(gpaCircle);
+        }
+      });
+    </script>
+  </body>
+</html>
