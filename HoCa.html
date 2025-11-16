@@ -65,7 +65,7 @@
 
       function addFish(type) {
 
-        playSound('/audio/water-splash.mp3');
+        playSound('audio/water-splash.mp3');
 
         const fish = document.createElement("div");
         fish.classList.add("fish");
@@ -96,7 +96,7 @@
         fish.addEventListener(
           "click",
           () => {
-            playSound('/audio/die.mp3');
+            playSound('audio/die.mp3');
             fish.dataset.isAlive = "false";
 
             // --- Dừng chuyển động hiện tại ---

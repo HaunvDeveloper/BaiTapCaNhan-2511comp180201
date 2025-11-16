@@ -47,7 +47,7 @@ body {
     inset 0 0 50px rgba(255, 255, 255, 0.5);
   overflow: hidden;
   user-select: none;
-  background-image: url("images/background.jpeg");
+  background-image: url("../images/background.jpeg");
   /* background-image: url('/images/background.jpg'); */
   background-size: cover;
   background-position: center;
@@ -136,7 +136,7 @@ body {
   width: 80px;
   height: 60px;
   /* background-image: url('/images/cua.png'); */
-  background-image: url("images/oc.png");
+  background-image: url("../images/oc.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
