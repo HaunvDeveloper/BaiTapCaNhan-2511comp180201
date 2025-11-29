@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tìm hiểu Fetch API - Demo Tương Tác</title>
+    <title>Báo cáo Fetch API - Nhóm HMCoding</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;600;700;800&display=swap');
 
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .code-font { font-family: 'Fira Code', monospace; }
 
         /* Custom Scrollbar */
@@ -25,11 +25,11 @@
         .token-variable { color: #e06c75; }
         .token-number { color: #d19a66; }
 
-        .slide { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .slide { display: none; animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         .slide.active { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -42,70 +42,303 @@
             animation: spin 1s linear infinite;
             display: inline-block;
         }
-
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* Product Card Animation */
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
         .product-card { animation: slideInUp 0.5s ease-out forwards; opacity: 0; }
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Navigation Dots Tooltip */
+        .nav-dot-group:hover .nav-tooltip { opacity: 1; visibility: visible; }
+        .nav-tooltip {
+            transition: all 0.2s;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            left: 140%;
+            background: #1e293b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 50;
+        }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden text-gray-800">
+<body class="h-screen flex flex-col overflow-hidden">
 
     <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200 z-10">
+    <header class="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 z-10 sticky top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-network-wired text-blue-600 text-2xl"></i>
-                <h1 class="text-xl font-bold text-gray-900 tracking-tight">Tìm hiểu Fetch API</h1>
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold shadow-blue-200 shadow-lg">HM</div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-900 tracking-tight leading-tight">Báo cáo: Fetch API</h1>
+                    <p class="text-xs text-gray-500">Môn: Thiết kế Web - Nhóm HMCoding</p>
+                </div>
             </div>
-            <div class="text-sm text-gray-500 hidden sm:block">HMCoding - Fetch API JavaScript</div>
+            <div class="text-sm font-medium text-gray-500 hidden sm:block bg-gray-100 px-3 py-1 rounded-full">
+                GVHD: ThS. Lương Trần Hy Hiến
+            </div>
         </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="flex-1 overflow-hidden relative flex">
         
-        <!-- Sidebar Navigation (Dots) -->
-        <div class="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-8 gap-4 hidden sm:flex">
-            <button onclick="goToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-blue-600 transition-all hover:scale-125" title="Giới thiệu"></button>
-            <button onclick="goToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-125" title="GET Request"></button>
-            <button onclick="goToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-125" title="Async / Await"></button>
-            <button onclick="goToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-125" title="POST Request"></button>
-            <!-- New Dot -->
-            <button onclick="goToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-125" title="Render List (Sản phẩm)"></button>
-            <button onclick="goToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-125" title="Xử lý Lỗi"></button>
+        <!-- Sidebar Navigation -->
+        <div class="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-6 gap-3 hidden sm:flex z-20 overflow-y-auto">
+            <!-- Theory Section -->
+            <div class="w-full border-b border-gray-100 pb-2 mb-2 flex flex-col items-center gap-3">
+                <div class="nav-dot-group relative flex items-center">
+                    <button onclick="goToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-blue-600 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                    <span class="nav-tooltip">Trang bìa</span>
+                </div>
+                <div class="nav-dot-group relative flex items-center">
+                    <button onclick="goToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                    <span class="nav-tooltip">Tổng quan API (Nhà hàng)</span>
+                </div>
+                <div class="nav-dot-group relative flex items-center">
+                    <button onclick="goToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                    <span class="nav-tooltip">HTTP Request</span>
+                </div>
+                <div class="nav-dot-group relative flex items-center">
+                    <button onclick="goToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                    <span class="nav-tooltip">HTTP Response Status</span>
+                </div>
+                <div class="nav-dot-group relative flex items-center">
+                    <button onclick="goToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                    <span class="nav-tooltip">Giới thiệu Fetch API</span>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div class="text-[10px] text-gray-400 font-bold mb-1">DEMO</div>
+            <div class="nav-dot-group relative flex items-center">
+                <button onclick="goToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-green-100"></button>
+                <span class="nav-tooltip">Thực hành: GET</span>
+            </div>
+            <div class="nav-dot-group relative flex items-center">
+                <button onclick="goToSlide(6)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-blue-100"></button>
+                <span class="nav-tooltip">Thực hành: Async/Await</span>
+            </div>
+            <div class="nav-dot-group relative flex items-center">
+                <button onclick="goToSlide(7)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-purple-100"></button>
+                <span class="nav-tooltip">Thực hành: POST</span>
+            </div>
+            <div class="nav-dot-group relative flex items-center">
+                <button onclick="goToSlide(8)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-orange-100"></button>
+                <span class="nav-tooltip">Thực hành: Render List</span>
+            </div>
+            <div class="nav-dot-group relative flex items-center">
+                <button onclick="goToSlide(9)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-red-100"></button>
+                <span class="nav-tooltip">Thực hành: Xử lý lỗi</span>
+            </div>
+             <div class="nav-dot-group relative flex items-center mt-2">
+                <button onclick="goToSlide(10)" class="nav-dot w-3 h-3 rounded-full bg-gray-300 transition-all hover:scale-150 ring-2 ring-offset-2 ring-transparent hover:ring-gray-100"></button>
+                <span class="nav-tooltip">Công cụ DevTools</span>
+            </div>
         </div>
 
         <!-- Slides Container -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-gray-50 relative">
-            <div class="max-w-6xl mx-auto pb-20">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-50 relative scroll-smooth">
+            <div class="max-w-6xl mx-auto pb-24">
 
-                <!-- SLIDE 0: INTRO -->
+                <!-- SLIDE 1: TRANG BÌA -->
                 <div id="slide-0" class="slide active">
-                    <div class="bg-white rounded-2xl shadow-lg p-8 sm:p-12 text-center">
-                        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fa-solid fa-paper-plane text-blue-600 text-4xl"></i>
+                    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8 animate-[fadeIn_0.8s_ease-out]">
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold tracking-widest text-blue-600 uppercase">Trường Đại học Sư phạm TP. Hồ Chí Minh</p>
+                            <h1 class="text-5xl sm:text-7xl font-extrabold text-gray-900 leading-tight">
+                                Tìm hiểu <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Fetch API</span>
+                            </h1>
+                            <p class="text-xl text-gray-600 font-light mt-4">Học phần: Thiết kế Web</p>
                         </div>
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Fetch API là gì?</h2>
-                        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                            Fetch API là một giao diện lập trình (API) được trình duyệt cung cấp để giúp JavaScript gửi yêu cầu (request) và nhận dữ liệu (response) từ server một cách dễ dàng.
-                        </p>
-                        <button onclick="nextSlide()" class="mt-4 px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg inline-flex items-center gap-2">
-                            Bắt đầu thực hành <i class="fa-solid fa-arrow-right"></i>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left bg-white p-8 rounded-2xl shadow-xl border border-gray-100 max-w-2xl w-full mx-auto transform hover:scale-[1.02] transition-transform duration-300">
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Giảng viên hướng dẫn</h3>
+                                <p class="text-lg font-bold text-gray-800">ThS. Lương Trần Hy Hiến</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Nhóm sinh viên (HMCoding)</h3>
+                                <ul class="text-gray-700 space-y-1">
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span> Nguyễn Văn Hậu</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-pink-500 rounded-full"></span> Lê Thị Ngọc Thảo</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <button onclick="nextSlide()" class="group bg-gray-900 text-white px-8 py-3 rounded-full font-medium transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200">
+                            Bắt đầu báo cáo <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- SLIDE 1: BASIC GET -->
+                <!-- SLIDE 2: TỔNG QUAN API (NHÀ HÀNG) -->
                 <div id="slide-1" class="slide">
-                    <div class="mb-6"><h2 class="text-2xl font-bold text-gray-900 mb-2">1. GET Request (Cơ bản)</h2><p class="text-gray-600">Cách đơn giản nhất để lấy dữ liệu JSON từ server.</p></div>
+                    <div class="mb-8 border-b border-gray-200 pb-4">
+                        <span class="text-blue-600 font-bold text-sm uppercase tracking-wider">Chương 1: Tổng quan</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-1">API là gì? (Ví dụ Nhà hàng)</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <!-- Client -->
+                        <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500 relative">
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center border-4 border-white">
+                                <i class="fa-solid fa-user text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="mt-6 text-xl font-bold text-gray-800">Khách hàng</h3>
+                            <p class="text-sm text-gray-500 font-mono mt-1">(Client / Browser)</p>
+                            <p class="mt-4 text-gray-600 text-sm">Người có nhu cầu gọi món nhưng không thể tự vào bếp nấu.</p>
+                        </div>
+
+                        <!-- API -->
+                        <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-yellow-500 relative">
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center border-4 border-white">
+                                <i class="fa-solid fa-bell-concierge text-yellow-600 text-xl"></i>
+                            </div>
+                            <h3 class="mt-6 text-xl font-bold text-gray-800">Bồi bàn (API)</h3>
+                            <p class="text-sm text-gray-500 font-mono mt-1">(Trung gian)</p>
+                            <div class="mt-4 text-sm text-gray-600 space-y-2 text-left">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-arrow-right text-gray-400"></i> Mang <b>Request</b> (Gọi món) vào bếp.</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-arrow-left text-gray-400"></i> Mang <b>Response</b> (Món ăn) ra bàn.</div>
+                            </div>
+                        </div>
+
+                        <!-- Server -->
+                        <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-red-500 relative">
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-red-100 w-12 h-12 rounded-full flex items-center justify-center border-4 border-white">
+                                <i class="fa-solid fa-fire-burner text-red-600 text-xl"></i>
+                            </div>
+                            <h3 class="mt-6 text-xl font-bold text-gray-800">Nhà bếp</h3>
+                            <p class="text-sm text-gray-500 font-mono mt-1">(Server / Database)</p>
+                            <p class="mt-4 text-gray-600 text-sm">Nơi chứa nguyên liệu và thực hiện chế biến phức tạp để tạo ra món ăn.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 bg-blue-50 p-4 rounded-lg text-blue-800 text-sm flex items-center gap-3">
+                        <i class="fa-solid fa-lightbulb text-yellow-500 text-xl"></i>
+                        <p>API (Application Programming Interface) là lớp trung gian cho phép các phần mềm "nói chuyện" với nhau mà không cần biết bên kia hoạt động thế nào.</p>
+                    </div>
+                </div>
+
+                <!-- SLIDE 3: HTTP REQUEST -->
+                <div id="slide-2" class="slide">
+                    <div class="mb-6"><h2 class="text-3xl font-bold text-gray-900">Cấu trúc HTTP Request</h2></div>
+                    
+                    <div class="bg-slate-900 text-gray-300 rounded-xl p-6 font-mono text-sm shadow-2xl relative overflow-hidden">
+                        <!-- Request Line -->
+                        <div class="mb-4 pb-4 border-b border-slate-700">
+                            <span class="text-gray-500">// 1. Request Line (Hành động)</span><br>
+                            <span class="text-purple-400 font-bold">POST</span> <span class="text-green-400">/api/login</span> <span class="text-yellow-400">HTTP/1.1</span>
+                        </div>
+
+                        <!-- Headers -->
+                        <div class="mb-4 pb-4 border-b border-slate-700">
+                             <span class="text-gray-500">// 2. Headers (Thông tin bổ sung)</span><br>
+                            <span class="text-blue-300">Host:</span> api.example.com<br>
+                            <span class="text-blue-300">Content-Type:</span> <span class="text-orange-300">application/json</span><br>
+                            <span class="text-blue-300">Authorization:</span> Bearer eyJhbGci...
+                        </div>
+
+                        <!-- Body -->
+                        <div>
+                             <span class="text-gray-500">// 3. Body (Dữ liệu gửi đi - chỉ có ở POST/PUT...)</span><br>
+                            {<br>
+                            &nbsp;&nbsp;<span class="text-pink-400">"username"</span>: <span class="text-green-300">"nguyenvanhau"</span>,<br>
+                            &nbsp;&nbsp;<span class="text-pink-400">"password"</span>: <span class="text-green-300">"******"</span><br>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="bg-white p-3 rounded shadow text-center"><span class="block font-bold text-purple-600">GET</span>Lấy dữ liệu</div>
+                        <div class="bg-white p-3 rounded shadow text-center"><span class="block font-bold text-blue-600">POST</span>Gửi mới</div>
+                        <div class="bg-white p-3 rounded shadow text-center"><span class="block font-bold text-orange-600">PUT</span>Cập nhật</div>
+                        <div class="bg-white p-3 rounded shadow text-center"><span class="block font-bold text-red-600">DELETE</span>Xóa</div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 4: HTTP RESPONSE -->
+                <div id="slide-3" class="slide">
+                     <div class="mb-6"><h2 class="text-3xl font-bold text-gray-900">HTTP Response Status Codes</h2></div>
+                     
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 2xx Success -->
+                        <div class="bg-green-50 border border-green-200 p-5 rounded-xl">
+                            <h3 class="text-green-800 font-bold text-lg mb-2"><i class="fa-solid fa-circle-check mr-2"></i>2xx - Thành công</h3>
+                            <ul class="text-sm text-green-700 space-y-2">
+                                <li><b>200 OK:</b> Thành công bình thường.</li>
+                                <li><b>201 Created:</b> Đã tạo tài nguyên mới (sau khi POST).</li>
+                                <li><b>204 No Content:</b> Thành công nhưng không có nội dung trả về.</li>
+                            </ul>
+                        </div>
+
+                        <!-- 4xx Client Error -->
+                        <div class="bg-orange-50 border border-orange-200 p-5 rounded-xl">
+                            <h3 class="text-orange-800 font-bold text-lg mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>4xx - Lỗi phía Client</h3>
+                             <ul class="text-sm text-orange-700 space-y-2">
+                                <li><b>400 Bad Request:</b> Gửi sai định dạng.</li>
+                                <li><b>401 Unauthorized:</b> Chưa đăng nhập / Token sai.</li>
+                                <li><b>403 Forbidden:</b> Không có quyền truy cập.</li>
+                                <li><b>404 Not Found:</b> Không tìm thấy trang/API.</li>
+                            </ul>
+                        </div>
+
+                        <!-- 3xx Redirect -->
+                        <div class="bg-blue-50 border border-blue-200 p-5 rounded-xl">
+                            <h3 class="text-blue-800 font-bold text-lg mb-2"><i class="fa-solid fa-share mr-2"></i>3xx - Chuyển hướng</h3>
+                             <ul class="text-sm text-blue-700 space-y-2">
+                                <li><b>301 Moved Permanently:</b> URL thay đổi vĩnh viễn.</li>
+                                <li><b>302 Found:</b> Chuyển hướng tạm thời.</li>
+                            </ul>
+                        </div>
+
+                         <!-- 5xx Server Error -->
+                         <div class="bg-red-50 border border-red-200 p-5 rounded-xl">
+                            <h3 class="text-red-800 font-bold text-lg mb-2"><i class="fa-solid fa-server mr-2"></i>5xx - Lỗi phía Server</h3>
+                             <ul class="text-sm text-red-700 space-y-2">
+                                <li><b>500 Internal Server Error:</b> Lỗi chung không xác định.</li>
+                                <li><b>503 Service Unavailable:</b> Server quá tải / Bảo trì.</li>
+                            </ul>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- SLIDE 5: FETCH API INTRO -->
+                <div id="slide-4" class="slide">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center border border-gray-100">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200 transform rotate-3">
+                            <i class="fa-solid fa-code text-white text-4xl"></i>
+                        </div>
+                        <span class="text-blue-600 font-bold tracking-widest text-xs uppercase mb-2 block">Chương 2</span>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Fetch API</h2>
+                        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                            Giao diện lập trình hiện đại thay thế cho <code class="bg-gray-100 px-1 py-0.5 rounded text-red-500 text-sm">XMLHttpRequest</code>, sử dụng <b>Promise</b> giúp việc gọi HTTP request trở nên đơn giản, sạch sẽ và dễ đọc hơn.
+                        </p>
+                        
+                        <div class="bg-slate-900 text-left p-6 rounded-xl shadow-inner max-w-2xl mx-auto overflow-x-auto">
+                            <code class="code-font text-sm text-gray-300">
+                                <span class="token-function">fetch</span>(<span class="token-string">'https://api.example.com/data'</span>)<br>
+                                &nbsp;&nbsp;.<span class="token-function">then</span>(response => response.<span class="token-function">json</span>())<br>
+                                &nbsp;&nbsp;.<span class="token-function">then</span>(data => <span class="token-variable">console</span>.<span class="token-function">log</span>(data))<br>
+                                &nbsp;&nbsp;.<span class="token-function">catch</span>(error => <span class="token-variable">console</span>.<span class="token-function">error</span>(error));
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 6: BASIC GET (PRACTICE) -->
+                <div id="slide-5" class="slide">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                             <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><span class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-extrabold">DEMO</span> 1. GET Request</h2>
+                             <p class="text-gray-600 text-sm mt-1">Lấy dữ liệu JSON từ server (Mặc định của fetch).</p>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col">
-                            <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 text-xs text-slate-400 font-mono">script.js</div>
+                            <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 text-xs text-slate-400 font-mono flex justify-between"><span>script.js</span><span>JSONPlaceholder</span></div>
                             <pre class="p-4 text-sm code-font text-gray-300 overflow-x-auto flex-1">
 <span class="token-function">fetch</span>(<span class="token-string">'https://jsonplaceholder.typicode.com/posts/1'</span>)
   .<span class="token-function">then</span>(res => res.<span class="token-function">json</span>())
@@ -116,15 +349,18 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col">
-                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Kết quả</span><span id="status-demo1" class="text-xs px-2 py-1 rounded bg-gray-200">Ready</span></div>
+                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Console Output</span><span id="status-demo1" class="text-xs px-2 py-1 rounded bg-gray-200">Waiting</span></div>
                             <div class="p-4 flex-1 bg-gray-50 min-h-[250px]"><pre id="output-demo1" class="code-font text-xs sm:text-sm text-gray-700 whitespace-pre-wrap">Chưa có dữ liệu...</pre></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SLIDE 2: ASYNC/AWAIT -->
-                <div id="slide-2" class="slide">
-                    <div class="mb-6"><h2 class="text-2xl font-bold text-gray-900 mb-2">2. Cú pháp Async / Await</h2><p class="text-gray-600">Giúp code bất đồng bộ trở nên gọn gàng và dễ đọc như code đồng bộ.</p></div>
+                <!-- SLIDE 7: ASYNC/AWAIT (PRACTICE) -->
+                <div id="slide-6" class="slide">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-extrabold">DEMO</span> 2. Async / Await</h2>
+                        <p class="text-gray-600 text-sm mt-1">Viết code bất đồng bộ theo phong cách đồng bộ, dễ đọc hơn.</p>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col">
                             <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 text-xs text-slate-400 font-mono">async_example.js</div>
@@ -143,15 +379,18 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col">
-                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Giao diện</span><span id="status-demo2" class="text-xs px-2 py-1 rounded bg-gray-200">Ready</span></div>
-                            <div id="output-demo2" class="p-6 flex-1 bg-white flex items-center justify-center min-h-[250px] text-gray-400"><p>Thông tin user sẽ hiện ở đây</p></div>
+                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Giao diện (UI)</span><span id="status-demo2" class="text-xs px-2 py-1 rounded bg-gray-200">Waiting</span></div>
+                            <div id="output-demo2" class="p-6 flex-1 bg-white flex items-center justify-center min-h-[250px] text-gray-400"><p>Kết quả hiển thị thẻ User tại đây</p></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SLIDE 3: POST REQUEST -->
-                <div id="slide-3" class="slide">
-                    <div class="mb-6"><h2 class="text-2xl font-bold text-gray-900 mb-2">3. POST Request (Gửi dữ liệu)</h2><p class="text-gray-600">Thêm method, headers và body để gửi dữ liệu lên server.</p></div>
+                <!-- SLIDE 8: POST REQUEST (PRACTICE) -->
+                <div id="slide-7" class="slide">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><span class="bg-purple-100 text-purple-700 px-3 py-1 rounded text-sm font-extrabold">DEMO</span> 3. POST Request</h2>
+                        <p class="text-gray-600 text-sm mt-1">Gửi dữ liệu lên server (Thêm method, headers, body).</p>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col">
                             <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 text-xs text-slate-400 font-mono">create_post.js</div>
@@ -159,7 +398,11 @@
 <span class="token-function">fetch</span>(<span class="token-string">'.../posts'</span>, {
   method: <span class="token-string">'POST'</span>,
   headers: { <span class="token-string">'Content-Type'</span>: <span class="token-string">'application/json'</span> },
-  body: <span class="token-variable">JSON</span>.<span class="token-function">stringify</span>({ title: <span class="token-string">'ABC'</span> })
+  body: <span class="token-variable">JSON</span>.<span class="token-function">stringify</span>({ 
+      title: <span class="token-string">'Báo cáo Fetch API'</span>, 
+      body: <span class="token-string">'...'</span>, 
+      userId: <span class="token-number">1</span> 
+  })
 })
 .then(res => res.<span class="token-function">json</span>())
 .then(data => <span class="token-variable">console</span>.<span class="token-function">log</span>(data));</pre>
@@ -168,65 +411,56 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col">
-                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Phản hồi</span><span id="status-demo3" class="text-xs px-2 py-1 rounded bg-gray-200">Ready</span></div>
+                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Phản hồi Server</span><span id="status-demo3" class="text-xs px-2 py-1 rounded bg-gray-200">Waiting</span></div>
                             <div class="p-4 flex-1 bg-gray-50 min-h-[250px]"><pre id="output-demo3" class="code-font text-xs sm:text-sm text-gray-700 whitespace-pre-wrap">Kết quả...</pre></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SLIDE 4: PRODUCT LIST (NEW) -->
-                <div id="slide-4" class="slide">
+                <!-- SLIDE 9: RENDER LIST (PRACTICE) -->
+                <div id="slide-8" class="slide">
                     <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">4. Hiển thị Danh sách Sản phẩm</h2>
-                        <p class="text-gray-600">Thực tế: Lấy về 1 mảng dữ liệu và dùng vòng lặp <code class="text-pink-600 bg-gray-100 px-1 rounded">.map()</code> để render ra HTML.</p>
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><span class="bg-orange-100 text-orange-700 px-3 py-1 rounded text-sm font-extrabold">DEMO</span> 4. Render Sản Phẩm</h2>
+                        <p class="text-gray-600 text-sm mt-1">Lấy mảng dữ liệu và dùng <code>.map()</code> để hiển thị lên HTML.</p>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Code -->
                         <div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col h-[500px]">
                             <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 flex justify-between">
-                                <span class="text-xs text-slate-400 font-mono">render_products.js</span>
+                                <span class="text-xs text-slate-400 font-mono">render.js</span>
                                 <span class="text-xs text-orange-400 font-mono">fakestoreapi.com</span>
                             </div>
                             <pre class="p-4 text-sm code-font text-gray-300 overflow-x-auto flex-1">
 <span class="token-keyword">async</span> <span class="token-keyword">function</span> <span class="token-function">getProducts</span>() {
-  <span class="token-comment">// 1. Lấy dữ liệu (mảng sản phẩm)</span>
-  <span class="token-keyword">const</span> res = <span class="token-keyword">await</span> <span class="token-function">fetch</span>(<span class="token-string">'https://fakestoreapi.com/products?limit=4'</span>);
+  <span class="token-keyword">const</span> res = <span class="token-keyword">await</span> <span class="token-function">fetch</span>(<span class="token-string">'.../products?limit=4'</span>);
   <span class="token-keyword">const</span> products = <span class="token-keyword">await</span> res.<span class="token-function">json</span>();
 
-  <span class="token-comment">// 2. Tạo HTML cho từng sản phẩm</span>
-  <span class="token-keyword">const</span> html = products.<span class="token-function">map</span>(p => `
-    &lt;div class="card"&gt;
-      &lt;img src="${p.image}" /&gt;
-      &lt;h3&gt;${p.title}&lt;/h3&gt;
-      &lt;p&gt;$${p.price}&lt;/p&gt;
-    &lt;/div&gt;
-  `).<span class="token-function">join</span>(<span class="token-string">''</span>);
-
-  <span class="token-comment">// 3. Hiển thị lên giao diện</span>
-  <span class="token-variable">document</span>.<span class="token-function">getElementById</span>(<span class="token-string">'grid'</span>).innerHTML = html;
+  <span class="token-variable">document</span>.<span class="token-function">getElementById</span>(<span class="token-string">'grid'</span>).innerHTML = 
+    products.<span class="token-function">map</span>(p => `
+      &lt;div class="card"&gt;
+        &lt;img src="${p.image}" /&gt;
+        &lt;h3&gt;${p.title}&lt;/h3&gt;
+        &lt;p&gt;$${p.price}&lt;/p&gt;
+      &lt;/div&gt;
+    `).<span class="token-function">join</span>(<span class="token-string">''</span>);
 }</pre>
                             <div class="p-4 bg-slate-900 border-t border-slate-700">
                                 <button onclick="runDemoProduct()" class="w-full py-2 bg-orange-600 hover:bg-orange-700 text-white rounded font-medium transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-shop"></i> Lấy danh sách sản phẩm
+                                    <i class="fa-solid fa-shop"></i> Tải danh sách
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Result UI -->
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col h-[500px]">
                             <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between items-center">
-                                <span>Giao diện Cửa hàng</span>
-                                <span id="status-demo-product" class="text-xs px-2 py-1 rounded bg-gray-200">Ready</span>
+                                <span>Kết quả giao diện</span>
+                                <span id="status-demo-product" class="text-xs px-2 py-1 rounded bg-gray-200">Waiting</span>
                             </div>
-                            <!-- Scrollable container for products -->
                             <div class="p-4 flex-1 bg-gray-100 overflow-y-auto relative">
-                                <!-- Grid Container -->
                                 <div id="product-grid" class="grid grid-cols-2 gap-4">
-                                    <!-- Placeholder / Empty State -->
                                     <div class="col-span-2 flex flex-col items-center justify-center h-full text-gray-400 mt-20">
                                         <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
-                                        <p>Nhấn nút để tải sản phẩm...</p>
+                                        <p>Nhấn nút để tải...</p>
                                     </div>
                                 </div>
                             </div>
@@ -234,16 +468,21 @@
                     </div>
                 </div>
 
-                <!-- SLIDE 5: ERROR HANDLING -->
-                <div id="slide-5" class="slide">
-                    <div class="mb-6"><h2 class="text-2xl font-bold text-gray-900 mb-2">5. Xử lý Lỗi (404/500)</h2><p class="text-gray-600">Fetch API không tự bắt lỗi 404, ta phải kiểm tra <code>response.ok</code>.</p></div>
+                <!-- SLIDE 10: ERROR HANDLING (PRACTICE) -->
+                <div id="slide-9" class="slide">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><span class="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-extrabold">DEMO</span> 5. Xử lý Lỗi</h2>
+                        <p class="text-gray-600 text-sm mt-1">Fetch không tự throw error khi gặp 404, ta phải check <code>response.ok</code>.</p>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col">
                             <div class="bg-slate-900 px-4 py-2 border-b border-slate-700 text-xs text-slate-400 font-mono">check_error.js</div>
                             <pre class="p-4 text-sm code-font text-gray-300 overflow-x-auto flex-1">
-<span class="token-function">fetch</span>(<span class="token-string">'.../posts/999999'</span>)
+<span class="token-function">fetch</span>(<span class="token-string">'.../posts/999999'</span>) <span class="token-comment">// ID không tồn tại</span>
   .<span class="token-function">then</span>(res => {
-    <span class="token-keyword">if</span> (!res.ok) <span class="token-keyword">throw</span> <span class="token-keyword">new</span> <span class="token-function">Error</span>(<span class="token-string">'Lỗi: '</span> + res.status);
+    <span class="token-keyword">if</span> (!res.ok) {
+        <span class="token-keyword">throw</span> <span class="token-keyword">new</span> <span class="token-function">Error</span>(<span class="token-string">'Lỗi mạng: '</span> + res.status);
+    }
     <span class="token-keyword">return</span> res.<span class="token-function">json</span>();
   })
   .<span class="token-function">catch</span>(err => <span class="token-function">alert</span>(err.message));</pre>
@@ -252,8 +491,56 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col">
-                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Thông báo</span><span id="status-demo4" class="text-xs px-2 py-1 rounded bg-gray-200">Ready</span></div>
+                            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 font-semibold text-gray-700 flex justify-between"><span>Thông báo lỗi</span><span id="status-demo4" class="text-xs px-2 py-1 rounded bg-gray-200">Waiting</span></div>
                             <div id="output-demo4" class="p-6 flex-1 bg-white flex items-center justify-center min-h-[250px]"><p class="text-gray-400">Kết quả chạy thử...</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 11: DEVTOOLS (Chương 3) -->
+                <div id="slide-10" class="slide">
+                    <div class="mb-6 border-b border-gray-200 pb-4">
+                         <span class="text-blue-600 font-bold text-sm uppercase tracking-wider">Chương 3</span>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-1">Chrome DevTools (Tab Network)</h2>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="font-bold text-lg mb-4 text-gray-800">Quy trình kiểm tra Request:</h3>
+                                <ol class="list-decimal list-inside space-y-3 text-gray-600 text-sm">
+                                    <li class="p-2 bg-gray-50 rounded">Mở DevTools: <span class="font-mono bg-gray-200 px-1 rounded text-black">F12</span> hoặc <span class="font-mono bg-gray-200 px-1 rounded text-black">Ctrl+Shift+I</span>.</li>
+                                    <li class="p-2 bg-gray-50 rounded">Chọn tab <b>Network</b>.</li>
+                                    <li class="p-2 bg-gray-50 rounded">Tích vào <b>Fetch/XHR</b> để lọc API.</li>
+                                    <li class="p-2 bg-gray-50 rounded">Reload trang hoặc thực hiện hành động (click nút).</li>
+                                    <li class="p-2 bg-gray-50 rounded">Click vào tên request để xem chi tiết (Headers, Preview, Response).</li>
+                                </ol>
+                            </div>
+                            <div class="flex flex-col justify-center space-y-4">
+                                <div class="bg-gray-800 p-4 rounded-lg text-white font-mono text-xs shadow-inner">
+                                    <div class="flex border-b border-gray-600 pb-2 mb-2 font-bold">
+                                        <div class="w-1/3">Name</div>
+                                        <div class="w-1/6">Status</div>
+                                        <div class="w-1/6">Type</div>
+                                        <div class="w-1/3">Time</div>
+                                    </div>
+                                    <div class="flex text-green-400">
+                                        <div class="w-1/3">posts</div>
+                                        <div class="w-1/6">200</div>
+                                        <div class="w-1/6">fetch</div>
+                                        <div class="w-1/3">45 ms</div>
+                                    </div>
+                                    <div class="flex text-red-400">
+                                        <div class="w-1/3">999999</div>
+                                        <div class="w-1/6">404</div>
+                                        <div class="w-1/6">fetch</div>
+                                        <div class="w-1/3">20 ms</div>
+                                    </div>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded text-sm text-blue-800">
+                                    <i class="fa-solid fa-circle-info mr-2"></i><b>Tip:</b> Dùng tab <b>Preview</b> để xem JSON dạng cây dễ đọc.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -262,17 +549,17 @@
         </div>
 
         <!-- Bottom Controls -->
-        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center sm:pl-20 z-20">
-            <button onclick="prevSlide()" id="btn-prev" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fa-solid fa-chevron-left mr-2"></i> Trước</button>
-            <span class="font-medium text-gray-500" id="slide-indicator">1 / 6</span>
-            <button onclick="nextSlide()" id="btn-next" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">Tiếp theo <i class="fa-solid fa-chevron-right ml-2"></i></button>
+        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center sm:pl-20 z-20 backdrop-blur">
+            <button onclick="prevSlide()" id="btn-prev" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium"><i class="fa-solid fa-chevron-left mr-2"></i> Trước</button>
+            <span class="font-mono font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded" id="slide-indicator">1 / 11</span>
+            <button onclick="nextSlide()" id="btn-next" class="px-5 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium shadow-lg shadow-blue-200">Tiếp theo <i class="fa-solid fa-chevron-right ml-2"></i></button>
         </div>
     </main>
 
     <script>
         // --- Slide Logic ---
         let currentSlide = 0;
-        const totalSlides = 6; // Đã tăng lên 6 slide
+        const totalSlides = 11; // Tổng 11 slide (Bìa + 3 Lý thuyết + Fetch Intro + 5 Demo + 1 DevTools)
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.nav-dot');
         const indicator = document.getElementById('slide-indicator');
@@ -281,12 +568,15 @@
 
         function updateSlideUI() {
             slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => { d.classList.remove('bg-blue-600', 'scale-125'); d.classList.add('bg-gray-300'); });
+            dots.forEach(d => { 
+                d.classList.remove('bg-blue-600', 'scale-150', 'ring-2'); 
+                d.classList.add('bg-gray-300'); 
+            });
 
             slides[currentSlide].classList.add('active');
             if(dots[currentSlide]) {
                 dots[currentSlide].classList.remove('bg-gray-300');
-                dots[currentSlide].classList.add('bg-blue-600', 'scale-125');
+                dots[currentSlide].classList.add('bg-blue-600', 'scale-150', 'ring-2');
             }
             indicator.innerText = `${currentSlide + 1} / ${totalSlides}`;
             btnPrev.disabled = currentSlide === 0;
@@ -297,7 +587,7 @@
         function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlideUI(); } }
         function goToSlide(index) { currentSlide = index; updateSlideUI(); }
 
-        // --- Demo Logic ---
+        // --- Demo Logic (GIỮ NGUYÊN TỪ PHIÊN BẢN TRƯỚC) ---
         function setLoading(id, isLoading) {
             const statusEl = document.getElementById(`status-${id}`);
             if (isLoading) {
@@ -342,33 +632,29 @@
         // Demo 3
         function runDemo3() {
             const output = document.getElementById('output-demo3'); output.innerText = ""; setLoading('demo3', true);
-            fetch('https://jsonplaceholder.typicode.com/posts', { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' }, body: JSON.stringify({title:'Demo', body:'Content', userId:1}) })
+            fetch('https://jsonplaceholder.typicode.com/posts', { method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' }, body: JSON.stringify({title:'Báo cáo Fetch API', body:'Nội dung demo', userId:1}) })
             .then(r => r.json()).then(d => { setLoading('demo3', false); output.innerHTML = `<div class="text-green-600 font-bold mb-2"><i class="fa-solid fa-check"></i> Tạo thành công (ID: ${d.id})</div>` + syntaxHighlight(d); });
         }
 
-        // Demo 4 (New - Product List)
+        // Demo 4 (Product List)
         async function runDemoProduct() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '<div class="col-span-2 flex flex-col items-center justify-center mt-10"><span class="loader mb-2"></span><p>Đang lấy sản phẩm...</p></div>';
             setLoading('demo-product', true);
 
             try {
-                const res = await fetch('https://fakestoreapi.com/products?limit=4'); // Lấy 4 sản phẩm
+                const res = await fetch('https://fakestoreapi.com/products?limit=4');
                 const products = await res.json();
                 setLoading('demo-product', false);
 
-                // Render List
                 const html = products.map((p, index) => `
                     <div class="product-card bg-white p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col items-center text-center" style="animation-delay: ${index * 100}ms">
                         <img src="${p.image}" class="h-20 object-contain mb-3" alt="${p.title}">
                         <h4 class="text-xs font-bold text-gray-800 line-clamp-2 mb-1" title="${p.title}">${p.title}</h4>
                         <p class="text-sm font-bold text-orange-600 mt-auto">$${p.price}</p>
-                        <button class="mt-2 text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded transition">Chi tiết</button>
                     </div>
                 `).join('');
-                
                 grid.innerHTML = html;
-
             } catch (error) {
                 grid.innerHTML = `<p class="text-red-500 col-span-2 text-center">Lỗi tải sản phẩm: ${error.message}</p>`;
                 setErrorStatus('demo-product', 'Err');
